@@ -42,5 +42,5 @@ if($DefaultProxy -and (-not $DefaultProxy.IsBypassed($Uri)))
 $WebClient.DownloadFile($Uri, $agentZip)
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory( $agentZip, "$PWD")
-.\config.cmd --environment --environmentname $Environment --agent $env:COMPUTERNAME --runasservice --work '_work' --url $OrganizationUrl --projectname $TeamProject --auth PAT --token $Token
+.\config.cmd --unattended --environment --environmentname $Environment --agent $env:COMPUTERNAME --runasservice --work '_work' --url $OrganizationUrl --projectname $TeamProject --auth PAT --token $Token
 Remove-Item $agentZip;
