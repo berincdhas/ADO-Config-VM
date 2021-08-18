@@ -2,7 +2,8 @@ param (
     [Parameter(Mandatory)][string]$OrganizationUrl,
     [Parameter(Mandatory)][string]$TeamProject,
     [Parameter(Mandatory)][string]$Environment,
-    [Parameter(Mandatory)][string]$Token
+    [Parameter(Mandatory)][string]$Token,
+    [Parameter(Mandatory)][string]$tags
 )
 $ErrorActionPreference="Stop";
 If(-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent() ).IsInRole( [Security.Principal.WindowsBuiltInRole] "Administrator"))
@@ -42,5 +43,5 @@ if($DefaultProxy -and (-not $DefaultProxy.IsBypassed($Uri)))
 $WebClient.DownloadFile($Uri, $agentZip)
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory( $agentZip, "$PWD")
-.\config.cmd --unattended --environment --environmentname $Environment --agent $env:COMPUTERNAME --runasservice --work '_work' --url $OrganizationUrl --projectname $TeamProject --auth PAT --token $Token
+.\config.cmd --unattended --environment --environmentname $Environment --agent $env:COMPUTERNAME --runasservice --work '_work' --url $OrganizationUrl --projectname $TeamProject --auth PAT --token $Token --addvirtualmachineresourcetags --virtualmachineresourcetags $tags
 Remove-Item $agentZip;
